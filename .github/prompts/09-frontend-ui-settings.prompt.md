@@ -1,8 +1,8 @@
 ---
 mode: agent
-description: Phase 05 - Frontend UI/UX polish and settings
+description: Phase 09 - Frontend UI/UX polish and settings
 ---
-# Phase 05 — Frontend UI/UX
+# Phase 09 — Frontend UI/UX, Settings, Layout
 Read: docs/09-ui-ux-spec.md, docs/05-coding-conventions.md.
 
 ## Task

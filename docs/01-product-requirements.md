@@ -27,6 +27,15 @@
 - Usage dashboard: tokens/minutes used, balance, cost by day/month/year (see 08-billing-pricing.md).
 - Auth (email + Google), roles (`USER`, `ADMIN`), i18n UI (vi/en/ja).
 
+## Product C — Knowledge Base & AI Search (RAG)
+- C1. Folder management, file upload (PDF/DOCX/XLSX/PPTX/CSV/MD/TXT/HTML/URL), file info panel. Details: docs/16, UI: docs/17.
+- C2. Ask questions in natural language; answers cite sources `[1][2]`; modes Web Search, Thinking, Deep Search.
+
+## Product D — Accounts, Organizations, Admin, Billing
+- D1. Roles: Super Admin, Admin, User, Enterprise (ORG_ADMIN, ORG_MEMBER). Details: docs/14. Admin panel: docs/18.
+- D2. Plans per DAY/WEEK/MONTH/YEAR/custom cycle, quota tracking (minutes, tokens, storage), auto-renew or user-chosen expiry action, reminders. Details: docs/15.
+- D3. Database: docs/13.
+
 ## Non-functional
 - End-to-end latency target (speech end → translated audio start): ≤ 2.0 s p50, ≤ 3.5 s p95.
 - Works on desktop Chrome/Edge/Safari and mobile web. WCAG AA contrast.

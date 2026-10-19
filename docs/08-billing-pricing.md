@@ -1,4 +1,5 @@
 # 08 — Usage Metering & Pricing
+> Plans, cycles, quotas, auto-renew and notifications are specified in docs/15. This file defines the credit metering formula used for overage/wallet.
 
 ## Principle
 **Pay-as-you-go prepaid wallet** (no flat unlimited plan) so cost never exceeds revenue. Users see simple units: **minutes of interpretation** (primary) and **tokens/credits** (detail view).

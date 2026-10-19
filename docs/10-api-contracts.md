@@ -40,3 +40,11 @@ Server → Client
 
 ## Webhooks from meeting-bot vendor
 `POST /v1/webhooks/meeting-bot` (signature verified): status changes (`joining`, `in_call`, `ended`, `denied`) → update bot record and notify client.
+
+## Additional endpoints (added)
+Auth/Accounts: `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `POST /auth/forgot-password`, `POST /auth/reset-password`, `POST /auth/verify-email`, `GET /auth/sessions`, `DELETE /auth/sessions/:id`.
+Admin (permission-guarded, docs/14, 18): `GET/POST /admin/users`, `GET/PATCH/DELETE /admin/users/:id`, `POST /admin/users/:id/activate|deactivate|role|permissions|reset-password|force-logout`, `POST /admin/admins`, `GET/POST /admin/orgs`, `PATCH/DELETE /admin/orgs/:id`, `GET /admin/audit-logs`, `GET/PATCH /admin/system-settings`, `GET /admin/overview`.
+Organizations: `GET/POST /orgs`, `GET/PATCH /orgs/:id`, `POST /orgs/:id/invitations`, `POST /orgs/invitations/accept`, `GET /orgs/:id/members`, `PATCH/DELETE /orgs/:id/members/:userId`, `PUT /orgs/:id/members/:userId/quotas`.
+Billing: `GET /plans`, `GET /billing/account`, `GET/POST /billing/subscription`, `PATCH /billing/subscription` (plan, interval, interval_count, auto_renew, on_expiry_action, cancel_at_period_end), `POST /billing/subscription/renew-now`, `GET /billing/quotas`, `GET /billing/invoices`, `POST /billing/invoices/:id/pay`, `GET/POST/DELETE /billing/payment-methods`, `POST /billing/wallet/topup`, `GET /usage/summary?range=day|week|month|year|custom&from=&to=&groupBy=kind|member`.
+Notifications: `GET /notifications`, `POST /notifications/:id/read`, `POST /notifications/read-all`, `GET/PUT /notifications/preferences`, SSE `GET /notifications/stream`.
+Knowledge: see docs/16.

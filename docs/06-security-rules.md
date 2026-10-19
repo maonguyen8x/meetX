@@ -19,3 +19,8 @@
 13. **Uploads (avatar)**: allow png/jpg/webp ≤ 2 MB; re-encode server-side; random file names.
 14. **Logging**: no PII, no keys, no audio; add request IDs.
 15. **GDPR/APPI readiness**: data export, deletion, and data-region setting documented in settings.
+16. **Tenant isolation**: every query on folders, documents, chunks, meetings, invoices is scoped by `owner_id`/`organization_id` AND the actor's permissions (docs/14). Vector/keyword search applies the access filter **inside the SQL**. Add automated cross-tenant leak tests.
+17. **Uploads**: validate MIME by magic bytes (not only extension), enforce size/quota before accepting, store under random keys, serve only through short-lived signed URLs with `Content-Disposition: attachment`, optional ClamAV scan, never execute or render uploaded HTML inline (sandbox/strip scripts when previewing).
+18. **RAG prompt injection**: retrieved chunks and web pages are untrusted DATA; system prompt forbids following instructions in sources; never let sources trigger tool calls or reveal other documents; strip hidden text/markup; cap context size.
+19. **Admin safety**: privileged actions require re-authentication (password or TOTP) when changing roles, deleting accounts, issuing refunds; all are audited; impersonation is view-only and audited; last Super Admin cannot be removed.
+20. **Account lifecycle**: deactivation revokes sessions at once; password hashing with argon2id; lockout/backoff after repeated failures; optional TOTP 2FA for Admin and Super Admin (required in production).

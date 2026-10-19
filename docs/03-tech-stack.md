@@ -15,6 +15,15 @@
 | TTS | Interface `TtsProvider`; default adapter ElevenLabs multilingual streaming; alt: OpenAI TTS with instruction prompts | Emotional voices |
 | Optional fast path | Speech-to-speech realtime model adapter (`S2sProvider`) | Lower latency, less control |
 | Meeting bots | Interface `MeetingBotProvider`; default adapter Recall.ai | Zoom / Meet / Teams |
+| Vector search | PostgreSQL `pgvector` (HNSW) + `tsvector` hybrid | image `pgvector/pgvector:pg16` |
+| Queue/jobs | BullMQ (Redis) | ingestion, renewals, reminders |
+| File storage | S3-compatible (MinIO in dev/self-host) via AWS SDK v3, presigned URLs | |
+| Doc parsing | pdf-parse/pdfjs, mammoth (docx), xlsx, officeparser/pptx parser, readability (html) | OCR optional |
+| Embeddings | Interface `EmbeddingProvider` (multilingual model, env-driven) | |
+| Web search | Interface `WebSearchProvider` (Tavily default) | |
+| Payments | Interface `PaymentProvider` (Stripe default) | |
+| Email | Interface `Mailer` (Resend/SMTP; console mailer in dev) | |
+| Reverse proxy | Caddy (auto HTTPS) | production |
 | Tests | Vitest, Playwright, MSW | |
 | Lint/format | ESLint, Prettier | |
 | Infra | Docker Compose (postgres, redis, livekit) | |
@@ -35,4 +44,10 @@ TTS_PROVIDER=elevenlabs TTS_API_KEY= TTS_MODEL= TTS_VOICE_MALE= TTS_VOICE_FEMALE
 MEETING_BOT_PROVIDER=recall MEETING_BOT_API_KEY= MEETING_BOT_REGION=
 LIVEKIT_URL= LIVEKIT_API_KEY= LIVEKIT_API_SECRET=
 STRIPE_SECRET_KEY= STRIPE_WEBHOOK_SECRET=
+S3_ENDPOINT= S3_BUCKET= S3_ACCESS_KEY= S3_SECRET_KEY= S3_REGION=
+EMBEDDING_PROVIDER= EMBEDDING_API_KEY= EMBEDDING_MODEL= EMBEDDING_DIM=1024
+ANSWER_MODEL= ANSWER_REASONING_MODEL= DEEP_MAX_STEPS=4
+WEB_SEARCH_PROVIDER=tavily WEB_SEARCH_API_KEY=
+EMAIL_PROVIDER=console EMAIL_API_KEY= EMAIL_FROM=
+SEED_SUPER_ADMIN_EMAIL= SEED_SUPER_ADMIN_PASSWORD= DATA_ENCRYPTION_KEY= CORS_ORIGINS= SENTRY_DSN=
 ```

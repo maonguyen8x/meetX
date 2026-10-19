@@ -3,6 +3,8 @@
 ## Visual language
 Modern, calm, premium. Rounded (`rounded-2xl` cards, `rounded-full` main buttons), soft shadows, glass panels on dark gradient for meeting screens. Light and dark themes (system default).
 
+> The Knowledge dashboard and Documents UI follow docs/17 (teal glassmorphism). Use the teal palette from docs/17 as the global primary color; keep the rest of these tokens.
+
 ## Design tokens
 - Fonts: Inter (UI), Noto Sans JP (Japanese), `font-feature-settings: "cv11","ss01"`. Base 16 px, line-height 1.5.
 - Spacing scale 4/8/12/16/24/32/48; section padding 24–32; button gap ≥ 12; min tap 44×44.

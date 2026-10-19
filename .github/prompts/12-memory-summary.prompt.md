@@ -1,8 +1,8 @@
 ---
 mode: agent
-description: Phase 07 - Meeting memory, summaries, recap, export
+description: Phase 12 - Meeting memory, summaries, recap, export
 ---
-# Phase 07 — Memory & Summaries
+# Phase 12 — Memory & Summaries
 Read: docs/07-translation-voice-spec.md (Memory, Modes), docs/01-product-requirements.md.
 
 ## Task

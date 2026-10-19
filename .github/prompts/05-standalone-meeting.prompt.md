@@ -1,8 +1,8 @@
 ---
 mode: agent
-description: Phase 04 - Standalone video meeting with built-in interpreter
+description: Phase 05 - Standalone video meeting with built-in interpreter
 ---
-# Phase 04 — Standalone Meeting Mode
+# Phase 05 — Standalone Meeting Mode
 Read: docs/02-architecture.md (Standalone flow), docs/09-ui-ux-spec.md (Room), docs/06-security-rules.md.
 
 ## Task

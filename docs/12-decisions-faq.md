@@ -7,3 +7,6 @@
 5. **Host permission:** Bot Mode: yes — the bot joins as a participant and the host must admit it (Meet admission, Zoom waiting room / app policy, Teams lobby). If denied, the bot cannot join (status `denied`). Standalone Mode: no external host needed; the room owner controls it. Always inform participants that an AI interpreter is active.
 6. **Recommended usage:** default trigger mode `auto` with `endpointingMs=700`; use `manual` for noisy rooms; use headphones to avoid echo; set glossary before important meetings.
 7. **Storage:** per-meeting `.md/.json` downloadable locally; optional cloud sync after explicit opt-in.
+8. **Why PostgreSQL + pgvector instead of a separate vector DB?** One database to operate, backup and secure; transactional consistency with permissions; sufficient for hundreds of thousands of chunks per tenant. A dedicated vector DB can be added behind the same retrieval interface if scale demands.
+9. **Billing model:** plan + included quotas + prepaid wallet for overage (docs/15). Auto-renew is optional; when off, the user chooses what happens at expiry.
+10. **Payment provider:** Stripe by default; the `PaymentProvider` interface allows adding local gateways later.
