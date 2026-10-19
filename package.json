@@ -1,0 +1,28 @@
+{
+  "name": "interpreter-ai",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "dotenv -e .env -- turbo run dev --env-mode=loose",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @meetx/web exec playwright test",
+    "db:migrate": "pnpm --filter @meetx/api db:migrate",
+    "db:seed": "pnpm --filter @meetx/api db:seed",
+    "db:studio": "pnpm --filter @meetx/api db:studio",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml down"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^15.3.0",
+    "dotenv-cli": "^8.0.0",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.0"
+  }
+}

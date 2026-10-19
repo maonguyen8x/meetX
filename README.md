@@ -1,4 +1,20 @@
 # Interpreter AI
-Real-time voice-to-voice AI interpreter (vi / ja / en and more) + Knowledge Base AI Search + Admin & Billing.
 
-Start here: `docs/00-getting-started-guide.md`. Build order: prompts `00` → `15` in `.github/prompts/`. Production: `docs/19-deployment-production.md`.
+Real-time voice-to-voice interpretation (vi / ja / en), knowledge search, accounts, and billing.
+
+## Local development
+
+Requirements: Node.js 22, pnpm 9, and Docker Desktop.
+
+In PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+pnpm install
+pnpm infra:up
+pnpm dev
+```
+
+The web app serves on http://localhost:3000 (Vietnamese, English, and Japanese routes at `/vi`, `/en`, and `/ja`). The API listens on http://localhost:4000; check `/health` and `/ready` for health and dependency readiness.
+
+Run quality checks with `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build`. Start with [the getting started guide](docs/00-getting-started-guide.md); implementation phases and specs are listed in `.github/prompts/` and `docs/`.
