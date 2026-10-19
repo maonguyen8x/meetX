@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: meetx
       POSTGRES_PASSWORD: meetx_dev_password
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes"]
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -33,6 +33,7 @@ services:
       retries: 10
 
   minio:
+    profiles: ["storage"]
     image: minio/minio:latest
     restart: unless-stopped
     command: server /data --console-address ":9001"
@@ -51,6 +52,7 @@ services:
       retries: 10
 
   minio-init:
+    profiles: ["storage"]
     image: minio/mc:latest
     depends_on:
       minio:

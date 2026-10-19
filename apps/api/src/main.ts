@@ -1,4 +1,5 @@
 import { env } from './config/env.js';
+import { prisma } from './db/prisma.js';
 import { postgres } from './db/postgres.js';
 import { redis } from './db/redis.js';
 import { buildApp } from './app.js';
@@ -16,7 +17,7 @@ async function main(): Promise<void> {
   });
 
   app.addHook('onClose', async () => {
-    await Promise.all([postgres.end(), redis.quit()]);
+    await Promise.all([postgres.end(), redis.quit(), prisma.$disconnect()]);
   });
 
   await app.listen({ host: env.HOST, port: env.PORT });

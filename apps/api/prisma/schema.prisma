@@ -1,0 +1,1288 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [citext, pg_trgm, vector]
+}
+
+enum PlatformRole {
+  SUPER_ADMIN
+  ADMIN
+  USER
+
+  @@map("platform_role")
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+
+  @@map("user_status")
+}
+
+enum AccountType {
+  INDIVIDUAL
+  ENTERPRISE_MEMBER
+
+  @@map("account_type")
+}
+
+enum Locale {
+  vi
+  en
+  ja
+
+  @@map("locale")
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+
+  @@map("organization_status")
+}
+
+enum OrganizationRole {
+  ORG_ADMIN
+  ORG_MEMBER
+
+  @@map("organization_role")
+}
+
+enum MembershipStatus {
+  ACTIVE
+  INACTIVE
+
+  @@map("membership_status")
+}
+
+enum PermissionScope {
+  PLATFORM
+  ORG
+
+  @@map("permission_scope")
+}
+
+enum PermissionEffect {
+  ALLOW
+  DENY
+
+  @@map("permission_effect")
+}
+
+enum AuthTokenType {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+  INVITE
+
+  @@map("auth_token_type")
+}
+
+enum VoiceGender {
+  MALE
+  FEMALE
+  NEUTRAL
+
+  @@map("voice_gender")
+}
+
+enum VoiceStyle {
+  WARM
+  PROFESSIONAL
+  ENERGETIC
+
+  @@map("voice_style")
+}
+
+enum TriggerMode {
+  AUTO
+  MANUAL
+  SUMMARY
+
+  @@map("trigger_mode")
+}
+
+enum StorageMode {
+  LOCAL
+  CLOUD
+
+  @@map("storage_mode")
+}
+
+enum MeetingType {
+  BOT
+  ROOM
+
+  @@map("meeting_type")
+}
+
+enum MeetingPlatform {
+  GOOGLE_MEET
+  ZOOM
+  TEAMS
+  INTERNAL
+
+  @@map("meeting_platform")
+}
+
+enum MeetingStatus {
+  CREATED
+  JOINING
+  LIVE
+  ENDED
+  FAILED
+  DENIED
+
+  @@map("meeting_status")
+}
+
+enum BillingOwnerType {
+  USER
+  ORGANIZATION
+
+  @@map("billing_owner_type")
+}
+
+enum BillingInterval {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+
+  @@map("billing_interval")
+}
+
+enum BillingCycle {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+  CUSTOM
+
+  @@map("billing_cycle")
+}
+
+enum PlanAudience {
+  INDIVIDUAL
+  ENTERPRISE
+  ANY
+
+  @@map("plan_audience")
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  PAUSED
+  CANCELED
+  EXPIRED
+
+  @@map("subscription_status")
+}
+
+enum ExpiryAction {
+  NOTIFY_ONLY
+  SWITCH_TO_FREE
+  PAUSE
+  CANCEL
+
+  @@map("expiry_action")
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
+
+  @@map("invoice_status")
+}
+
+enum InvoiceItemKind {
+  PLAN
+  OVERAGE
+  TOPUP
+  ADJUSTMENT
+
+  @@map("invoice_item_kind")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+
+  @@map("payment_status")
+}
+
+enum WalletTransactionType {
+  TOPUP
+  USAGE
+  PLAN_GRANT
+  REFUND
+  ADJUSTMENT
+
+  @@map("wallet_transaction_type")
+}
+
+enum UsageKind {
+  STT
+  LLM_IN
+  LLM_OUT
+  TTS
+  BOT
+  VIDEO
+  EMBED
+  STORAGE
+  WEB_SEARCH
+
+  @@map("usage_kind")
+}
+
+enum UsageUnit {
+  SEC
+  TOKEN
+  CHAR
+  MIN
+  BYTE
+  QUERY
+
+  @@map("usage_unit")
+}
+
+enum QuotaMetric {
+  INTERPRET_MINUTES
+  AI_TOKENS
+  STORAGE_BYTES
+  DOCUMENT_COUNT
+  MEMBER_COUNT
+  SEARCH_QUERIES
+
+  @@map("quota_metric")
+}
+
+enum NotificationType {
+  QUOTA_80
+  QUOTA_90
+  QUOTA_100
+  RENEWAL_REMINDER
+  PAYMENT_SUCCEEDED
+  PAYMENT_FAILED
+  SUBSCRIPTION_EXPIRED
+  DOC_READY
+  DOC_FAILED
+  MEMBER_INVITED
+  SYSTEM
+
+  @@map("notification_type")
+}
+
+enum DeliveryChannel {
+  EMAIL
+  IN_APP
+
+  @@map("delivery_channel")
+}
+
+enum DeliveryStatus {
+  QUEUED
+  SENT
+  FAILED
+
+  @@map("delivery_status")
+}
+
+enum FolderVisibility {
+  PRIVATE
+  ORGANIZATION
+  SHARED
+
+  @@map("folder_visibility")
+}
+
+enum DocumentSourceType {
+  UPLOAD
+  URL
+
+  @@map("document_source_type")
+}
+
+enum DocumentStatus {
+  UPLOADED
+  QUEUED
+  PARSING
+  CHUNKING
+  EMBEDDING
+  READY
+  FAILED
+
+  @@map("document_status")
+}
+
+enum ResourceType {
+  FOLDER
+  DOCUMENT
+
+  @@map("resource_type")
+}
+
+enum PrincipalType {
+  USER
+  ORGANIZATION
+  ORG_ROLE
+
+  @@map("principal_type")
+}
+
+enum ResourceAccess {
+  VIEW
+  EDIT
+  MANAGE
+
+  @@map("resource_access")
+}
+
+enum IngestionStage {
+  PARSE
+  CHUNK
+  EMBED
+  INDEX
+
+  @@map("ingestion_stage")
+}
+
+enum JobStatus {
+  QUEUED
+  RUNNING
+  DONE
+  FAILED
+
+  @@map("job_status")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+
+  @@map("message_role")
+}
+
+enum CitationSourceKind {
+  CHUNK
+  WEB
+
+  @@map("citation_source_kind")
+}
+
+model User {
+  id                 String       @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  email              String       @unique @db.Citext
+  emailVerifiedAt    DateTime?    @map("email_verified_at") @db.Timestamptz(6)
+  passwordHash       String?      @map("password_hash")
+  mustChangePassword Boolean      @default(false) @map("must_change_password")
+  name               String
+  avatarUrl          String?      @map("avatar_url")
+  locale             Locale       @default(vi)
+  platformRole       PlatformRole @default(USER) @map("platform_role")
+  status             UserStatus   @default(PENDING)
+  accountType        AccountType  @default(INDIVIDUAL) @map("account_type")
+  lastLoginAt        DateTime?    @map("last_login_at") @db.Timestamptz(6)
+  createdById        String?      @map("created_by") @db.Uuid
+  deactivatedAt      DateTime?    @map("deactivated_at") @db.Timestamptz(6)
+  deactivatedById    String?      @map("deactivated_by") @db.Uuid
+  deactivationReason String?      @map("deactivation_reason")
+  createdAt          DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt          DateTime?    @map("deleted_at") @db.Timestamptz(6)
+
+  createdUsers            User[]                   @relation("UserCreator")
+  createdBy               User?                    @relation("UserCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  deactivatedUsers        User[]                   @relation("UserDeactivator")
+  deactivatedBy           User?                    @relation("UserDeactivator", fields: [deactivatedById], references: [id], onDelete: SetNull)
+  oauthAccounts           OAuthAccount[]
+  sessions                Session[]
+  authTokens              AuthToken[]
+  ownedOrganizations      Organization[]           @relation("OrganizationOwner")
+  memberships             OrganizationMember[]
+  invitations             OrganizationInvitation[] @relation("InvitationSender")
+  permissionOverrides     UserPermissionOverride[] @relation("OverrideTarget")
+  grantedOverrides        UserPermissionOverride[] @relation("OverrideGrantor")
+  auditLogs               AuditLog[]               @relation("AuditActor")
+  interpreterSettings     InterpreterSettings?
+  meetings                Meeting[]                @relation("MeetingOwner")
+  glossaryTerms           GlossaryTerm[]           @relation("GlossaryOwner")
+  rooms                   Room[]                   @relation("RoomOwner")
+  usageEvents             UsageEvent[]
+  memberQuotas            MemberQuota[]
+  notifications           Notification[]
+  notificationPreferences NotificationPreference[]
+  ownedFolders            Folder[]                 @relation("FolderOwner")
+  uploadedDocuments       Document[]               @relation("DocumentUploader")
+  ownedDocuments          Document[]               @relation("DocumentOwner")
+  createdVersions         DocumentVersion[]        @relation("VersionCreator")
+  grantedAccess           AccessGrant[]            @relation("Grantor")
+  conversations           Conversation[]
+
+  @@index([platformRole, status])
+  @@index([createdAt])
+  @@map("users")
+}
+
+model OAuthAccount {
+  id                String   @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  userId            String   @map("user_id") @db.Uuid
+  provider          String
+  providerAccountId String   @map("provider_account_id")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("oauth_accounts")
+}
+
+model Session {
+  id        String    @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash")
+  userAgent String?   @map("user_agent")
+  ip        String?   @db.Inet
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(6)
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz(6)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@map("sessions")
+}
+
+model AuthToken {
+  id        String        @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  userId    String        @map("user_id") @db.Uuid
+  type      AuthTokenType
+  tokenHash String        @unique @map("token_hash")
+  expiresAt DateTime      @map("expires_at") @db.Timestamptz(6)
+  usedAt    DateTime?     @map("used_at") @db.Timestamptz(6)
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@map("auth_tokens")
+}
+
+model Organization {
+  id           String             @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  name         String
+  slug         String             @unique
+  ownerUserId  String             @map("owner_user_id") @db.Uuid
+  status       OrganizationStatus @default(ACTIVE)
+  taxCode      String?            @map("tax_code")
+  address      String?
+  billingEmail String?            @map("billing_email") @db.Citext
+  logoUrl      String?            @map("logo_url")
+  settings     Json               @default("{}") @db.JsonB
+  maxMembers   Int?               @map("max_members")
+  createdAt    DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime           @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt    DateTime?          @map("deleted_at") @db.Timestamptz(6)
+
+  owner         User                     @relation("OrganizationOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  members       OrganizationMember[]
+  invitations   OrganizationInvitation[]
+  auditLogs     AuditLog[]
+  meetings      Meeting[]
+  glossaryTerms GlossaryTerm[]           @relation("GlossaryOrganization")
+  rooms         Room[]
+  usageEvents   UsageEvent[]
+  memberQuotas  MemberQuota[]
+  notifications Notification[]
+  folders       Folder[]                 @relation("FolderOrganization")
+  documents     Document[]               @relation("DocumentOrganization")
+  conversations Conversation[]           @relation("ConversationOrganization")
+
+  @@index([status])
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String           @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  userId         String           @map("user_id") @db.Uuid
+  orgRole        OrganizationRole @map("org_role")
+  status         MembershipStatus @default(ACTIVE)
+  invitedById    String?          @map("invited_by") @db.Uuid
+  joinedAt       DateTime?        @map("joined_at") @db.Timestamptz(6)
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+  @@index([organizationId, status])
+  @@map("organization_members")
+}
+
+model OrganizationInvitation {
+  id             String           @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  email          String           @db.Citext
+  orgRole        OrganizationRole @map("org_role")
+  tokenHash      String           @unique @map("token_hash")
+  invitedById    String           @map("invited_by") @db.Uuid
+  expiresAt      DateTime         @map("expires_at") @db.Timestamptz(6)
+  acceptedAt     DateTime?        @map("accepted_at") @db.Timestamptz(6)
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invitedBy      User             @relation("InvitationSender", fields: [invitedById], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, email])
+  @@index([expiresAt])
+  @@map("organization_invitations")
+}
+
+model Permission {
+  key         String                   @id
+  description String
+  scope       PermissionScope
+  roleGrants  RolePermission[]
+  overrides   UserPermissionOverride[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  role          String
+  permissionKey String     @map("permission_key")
+  permission    Permission @relation(fields: [permissionKey], references: [key], onDelete: Cascade)
+
+  @@id([role, permissionKey])
+  @@map("role_permissions")
+}
+
+model UserPermissionOverride {
+  id            String           @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  userId        String           @map("user_id") @db.Uuid
+  permissionKey String           @map("permission_key")
+  effect        PermissionEffect
+  grantedById   String           @map("granted_by") @db.Uuid
+  createdAt     DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  user          User             @relation("OverrideTarget", fields: [userId], references: [id], onDelete: Cascade)
+  permission    Permission       @relation(fields: [permissionKey], references: [key], onDelete: Cascade)
+  grantedBy     User             @relation("OverrideGrantor", fields: [grantedById], references: [id], onDelete: Restrict)
+
+  @@unique([userId, permissionKey])
+  @@index([grantedById])
+  @@map("user_permission_overrides")
+}
+
+model AuditLog {
+  id             String        @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  actorUserId    String?       @map("actor_user_id") @db.Uuid
+  actorRole      String?       @map("actor_role")
+  action         String
+  targetType     String        @map("target_type")
+  targetId       String?       @map("target_id") @db.Uuid
+  organizationId String?       @map("organization_id") @db.Uuid
+  ip             String?       @db.Inet
+  userAgent      String?       @map("user_agent")
+  metadata       Json          @default("{}") @db.JsonB
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  actor          User?         @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+
+  @@index([actorUserId, createdAt])
+  @@index([targetType, targetId])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}
+
+model InterpreterSettings {
+  userId            String      @id @map("user_id") @db.Uuid
+  personaName       String      @default("AI Interpreter") @map("persona_name")
+  avatarUrl         String?     @map("avatar_url")
+  voiceGender       VoiceGender @default(NEUTRAL) @map("voice_gender")
+  voiceStyle        VoiceStyle  @default(PROFESSIONAL) @map("voice_style")
+  speed             Decimal     @default(1.0) @db.Decimal(3, 2)
+  volume            Decimal     @default(1.0) @db.Decimal(3, 2)
+  duckOriginalPct   Int         @default(15) @map("duck_original_pct")
+  triggerMode       TriggerMode @default(AUTO) @map("trigger_mode")
+  endpointingMs     Int         @default(700) @map("endpointing_ms")
+  defaultSourceLang String      @default("vi") @map("default_source_lang")
+  defaultTargetLang String      @default("en") @map("default_target_lang")
+  saveHistory       Boolean     @default(true) @map("save_history")
+  storageMode       StorageMode @default(CLOUD) @map("storage_mode")
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("interpreter_settings")
+}
+
+model Meeting {
+  id             String               @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  ownerId        String               @map("owner_id") @db.Uuid
+  organizationId String?              @map("organization_id") @db.Uuid
+  type           MeetingType
+  title          String?
+  platform       MeetingPlatform
+  meetingUrl     String?              @map("meeting_url")
+  sourceLang     String               @map("source_lang")
+  targetLang     String               @map("target_lang")
+  status         MeetingStatus        @default(CREATED)
+  startedAt      DateTime?            @map("started_at") @db.Timestamptz(6)
+  endedAt        DateTime?            @map("ended_at") @db.Timestamptz(6)
+  durationSec    Int?                 @map("duration_sec")
+  customerTag    String?              @map("customer_tag")
+  createdAt      DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime             @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt      DateTime?            @map("deleted_at") @db.Timestamptz(6)
+  owner          User                 @relation("MeetingOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  organization   Organization?        @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  participants   MeetingParticipant[]
+  turns          Turn[]
+  summary        MeetingSummary?
+  bot            Bot?
+  usageEvents    UsageEvent[]
+
+  @@index([ownerId, startedAt(sort: Desc)])
+  @@index([organizationId, startedAt(sort: Desc)])
+  @@index([status])
+  @@map("meetings")
+}
+
+model MeetingParticipant {
+  id          String    @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  meetingId   String    @map("meeting_id") @db.Uuid
+  displayName String    @map("display_name")
+  externalId  String?   @map("external_id")
+  lang        String?
+  joinedAt    DateTime? @map("joined_at") @db.Timestamptz(6)
+  leftAt      DateTime? @map("left_at") @db.Timestamptz(6)
+  meeting     Meeting   @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  turns       Turn[]
+
+  @@index([meetingId, joinedAt])
+  @@map("meeting_participants")
+}
+
+model Turn {
+  id                String              @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  meetingId         String              @map("meeting_id") @db.Uuid
+  participantId     String?             @map("participant_id") @db.Uuid
+  speakerLabel      String?             @map("speaker_label")
+  lang              String
+  originalTextEnc   String              @map("original_text_enc")
+  translatedTextEnc String              @map("translated_text_enc")
+  emotion           String?
+  startedMs         Int                 @map("started_ms")
+  endedMs           Int                 @map("ended_ms")
+  sttConfidence     Float?              @map("stt_confidence")
+  createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
+  meeting           Meeting             @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  participant       MeetingParticipant? @relation(fields: [participantId], references: [id], onDelete: SetNull)
+
+  @@index([meetingId, startedMs])
+  @@map("turns")
+}
+
+model MeetingSummary {
+  meetingId    String   @id @map("meeting_id") @db.Uuid
+  summaryMdEnc String   @map("summary_md_enc")
+  actionItems  Json     @default("[]") @map("action_items") @db.JsonB
+  decisions    Json     @default("[]") @db.JsonB
+  generatedAt  DateTime @default(now()) @map("generated_at") @db.Timestamptz(6)
+  meeting      Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@map("meeting_summaries")
+}
+
+model GlossaryTerm {
+  id             String        @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  ownerUserId    String?       @map("owner_user_id") @db.Uuid
+  organizationId String?       @map("organization_id") @db.Uuid
+  sourceLang     String        @map("source_lang")
+  targetLang     String        @map("target_lang")
+  sourceTerm     String        @map("source_term")
+  targetTerm     String        @map("target_term")
+  note           String?
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
+  owner          User?         @relation("GlossaryOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  organization   Organization? @relation("GlossaryOrganization", fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([ownerUserId, sourceLang, targetLang])
+  @@index([organizationId, sourceLang, targetLang])
+  @@map("glossary_terms")
+}
+
+model Bot {
+  id          String   @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  meetingId   String   @unique @map("meeting_id") @db.Uuid
+  vendor      String
+  vendorBotId String?  @map("vendor_bot_id")
+  status      String
+  error       String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  meeting     Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@index([vendor, vendorBotId])
+  @@map("bots")
+}
+
+model Room {
+  id             String        @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  ownerId        String        @map("owner_id") @db.Uuid
+  organizationId String?       @map("organization_id") @db.Uuid
+  livekitRoom    String        @unique @map("livekit_room")
+  inviteCode     String        @unique @map("invite_code")
+  status         String
+  endedAt        DateTime?     @map("ended_at") @db.Timestamptz(6)
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  owner          User          @relation("RoomOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+
+  @@index([ownerId, createdAt])
+  @@index([organizationId, createdAt])
+  @@map("rooms")
+}
+
+model BillingAccount {
+  id                     String           @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  ownerType              BillingOwnerType @map("owner_type")
+  ownerId                String           @map("owner_id") @db.Uuid
+  providerCustomerId     String?          @map("provider_customer_id")
+  currency               String           @default("USD") @db.Char(3)
+  billingEmail           String?          @map("billing_email") @db.Citext
+  taxCode                String?          @map("tax_code")
+  defaultPaymentMethodId String?          @map("default_payment_method_id") @db.Uuid
+  createdAt              DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  subscriptions        Subscription[]
+  invoices             Invoice[]
+  payments             Payment[]
+  wallet               Wallet?
+  walletTransactions   WalletTransaction[]
+  usageEvents          UsageEvent[]
+  quotaCounters        QuotaCounter[]
+  paymentMethods       PaymentMethod[]     @relation("BillingPaymentMethods")
+  defaultPaymentMethod PaymentMethod?      @relation("BillingDefaultPaymentMethod", fields: [defaultPaymentMethodId], references: [id], onDelete: SetNull)
+
+  @@unique([ownerType, ownerId])
+  @@index([ownerId])
+  @@map("billing_accounts")
+}
+
+model Plan {
+  id                       String          @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  code                     String          @unique
+  name                     String
+  description              String?
+  priceMinor               BigInt          @default(0) @map("price_minor")
+  currency                 String          @default("USD") @db.Char(3)
+  interval                 BillingInterval
+  intervalCount            Int             @default(1) @map("interval_count")
+  allowedIntervals         BillingCycle[]  @default([MONTH]) @map("allowed_intervals")
+  includedInterpretMinutes Int             @default(0) @map("included_interpret_minutes")
+  includedAiTokens         BigInt          @default(0) @map("included_ai_tokens")
+  storageQuotaBytes        BigInt          @default(0) @map("storage_quota_bytes")
+  maxDocuments             Int             @default(0) @map("max_documents")
+  maxMembers               Int             @default(1) @map("max_members")
+  features                 Json            @default("{}") @db.JsonB
+  isActive                 Boolean         @default(false) @map("is_active")
+  isPublic                 Boolean         @default(false) @map("is_public")
+  audience                 PlanAudience    @default(ANY)
+  providerPriceId          String?         @map("provider_price_id")
+  createdAt                DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt                DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  subscriptions            Subscription[]
+
+  @@index([isActive, isPublic, audience])
+  @@map("plans")
+}
+
+model Subscription {
+  id                     String              @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  billingAccountId       String              @map("billing_account_id") @db.Uuid
+  planId                 String              @map("plan_id") @db.Uuid
+  status                 SubscriptionStatus  @default(TRIALING)
+  billingInterval        BillingInterval     @map("billing_interval")
+  intervalCount          Int                 @default(1) @map("interval_count")
+  currentPeriodStart     DateTime            @map("current_period_start") @db.Timestamptz(6)
+  currentPeriodEnd       DateTime            @map("current_period_end") @db.Timestamptz(6)
+  autoRenew              Boolean             @default(false) @map("auto_renew")
+  onExpiryAction         ExpiryAction        @default(PAUSE) @map("on_expiry_action")
+  cancelAtPeriodEnd      Boolean             @default(false) @map("cancel_at_period_end")
+  graceUntil             DateTime?           @map("grace_until") @db.Timestamptz(6)
+  providerSubscriptionId String?             @unique @map("provider_subscription_id")
+  lastReminderSentAt     DateTime?           @map("last_reminder_sent_at") @db.Timestamptz(6)
+  canceledAt             DateTime?           @map("canceled_at") @db.Timestamptz(6)
+  createdAt              DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime            @updatedAt @map("updated_at") @db.Timestamptz(6)
+  billingAccount         BillingAccount      @relation(fields: [billingAccountId], references: [id], onDelete: Restrict)
+  plan                   Plan                @relation(fields: [planId], references: [id], onDelete: Restrict)
+  events                 SubscriptionEvent[]
+  invoices               Invoice[]
+
+  @@index([status, currentPeriodEnd])
+  @@index([billingAccountId, status])
+  @@map("subscriptions")
+}
+
+model SubscriptionEvent {
+  id             String       @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  subscriptionId String       @map("subscription_id") @db.Uuid
+  type           String
+  payload        Json         @default("{}") @db.JsonB
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([subscriptionId, createdAt])
+  @@map("subscription_events")
+}
+
+model Invoice {
+  id                String         @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  billingAccountId  String         @map("billing_account_id") @db.Uuid
+  subscriptionId    String?        @map("subscription_id") @db.Uuid
+  number            String         @unique
+  status            InvoiceStatus  @default(DRAFT)
+  subtotalMinor     BigInt         @map("subtotal_minor")
+  taxMinor          BigInt         @default(0) @map("tax_minor")
+  totalMinor        BigInt         @map("total_minor")
+  amountPaidMinor   BigInt         @default(0) @map("amount_paid_minor")
+  currency          String         @db.Char(3)
+  periodStart       DateTime?      @map("period_start") @db.Timestamptz(6)
+  periodEnd         DateTime?      @map("period_end") @db.Timestamptz(6)
+  dueAt             DateTime?      @map("due_at") @db.Timestamptz(6)
+  paidAt            DateTime?      @map("paid_at") @db.Timestamptz(6)
+  providerInvoiceId String?        @unique @map("provider_invoice_id")
+  hostedUrl         String?        @map("hosted_url")
+  pdfUrl            String?        @map("pdf_url")
+  createdAt         DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
+  billingAccount    BillingAccount @relation(fields: [billingAccountId], references: [id], onDelete: Restrict)
+  subscription      Subscription?  @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  items             InvoiceItem[]
+  payments          Payment[]
+
+  @@index([billingAccountId, createdAt])
+  @@index([status, dueAt])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String          @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  invoiceId   String          @map("invoice_id") @db.Uuid
+  description String
+  quantity    Decimal         @db.Decimal(20, 6)
+  unitMinor   BigInt          @map("unit_minor")
+  totalMinor  BigInt          @map("total_minor")
+  kind        InvoiceItemKind
+  invoice     Invoice         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+  @@map("invoice_items")
+}
+
+model Payment {
+  id                String         @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  invoiceId         String?        @map("invoice_id") @db.Uuid
+  billingAccountId  String         @map("billing_account_id") @db.Uuid
+  provider          String
+  providerPaymentId String?        @unique @map("provider_payment_id")
+  amountMinor       BigInt         @map("amount_minor")
+  currency          String         @db.Char(3)
+  status            PaymentStatus  @default(PENDING)
+  failureCode       String?        @map("failure_code")
+  failureMessage    String?        @map("failure_message")
+  attemptNo         Int            @default(1) @map("attempt_no")
+  paidAt            DateTime?      @map("paid_at") @db.Timestamptz(6)
+  createdAt         DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  invoice           Invoice?       @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  billingAccount    BillingAccount @relation(fields: [billingAccountId], references: [id], onDelete: Restrict)
+
+  @@index([billingAccountId, createdAt])
+  @@index([status, createdAt])
+  @@map("payments")
+}
+
+model PaymentMethod {
+  id                 String           @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  billingAccountId   String           @map("billing_account_id") @db.Uuid
+  providerMethodId   String           @map("provider_method_id")
+  brand              String?
+  last4              String?          @db.VarChar(4)
+  expMonth           Int?             @map("exp_month")
+  expYear            Int?             @map("exp_year")
+  isDefault          Boolean          @default(false) @map("is_default")
+  createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  billingAccount     BillingAccount   @relation("BillingPaymentMethods", fields: [billingAccountId], references: [id], onDelete: Cascade)
+  defaultForAccounts BillingAccount[] @relation("BillingDefaultPaymentMethod")
+
+  @@unique([billingAccountId, providerMethodId])
+  @@index([billingAccountId, isDefault])
+  @@map("payment_methods")
+}
+
+model Wallet {
+  billingAccountId String         @id @map("billing_account_id") @db.Uuid
+  balanceCredits   BigInt         @default(0) @map("balance_credits")
+  updatedAt        DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
+  billingAccount   BillingAccount @relation(fields: [billingAccountId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
+}
+
+model WalletTransaction {
+  id               String                @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  billingAccountId String                @map("billing_account_id") @db.Uuid
+  type             WalletTransactionType
+  credits          BigInt
+  balanceAfter     BigInt                @map("balance_after")
+  refType          String?               @map("ref_type")
+  refId            String?               @map("ref_id") @db.Uuid
+  createdAt        DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
+  billingAccount   BillingAccount        @relation(fields: [billingAccountId], references: [id], onDelete: Restrict)
+
+  @@index([billingAccountId, createdAt])
+  @@index([refType, refId])
+  @@map("wallet_transactions")
+}
+
+model UsageEvent {
+  id                   String         @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  billingAccountId     String         @map("billing_account_id") @db.Uuid
+  userId               String         @map("user_id") @db.Uuid
+  organizationId       String?        @map("organization_id") @db.Uuid
+  meetingId            String?        @map("meeting_id") @db.Uuid
+  kind                 UsageKind
+  quantity             Decimal        @db.Decimal(24, 8)
+  unit                 UsageUnit
+  providerCostMicroUsd BigInt         @map("provider_cost_micro_usd")
+  creditsCharged       BigInt         @map("credits_charged")
+  createdAt            DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  billingAccount       BillingAccount @relation(fields: [billingAccountId], references: [id], onDelete: Restrict)
+  user                 User           @relation(fields: [userId], references: [id], onDelete: Restrict)
+  organization         Organization?  @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  meeting              Meeting?       @relation(fields: [meetingId], references: [id], onDelete: SetNull)
+
+  @@index([billingAccountId, createdAt])
+  @@index([userId, createdAt])
+  @@index([organizationId, createdAt])
+  @@map("usage_events")
+}
+
+model QuotaCounter {
+  id                    String         @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  billingAccountId      String         @map("billing_account_id") @db.Uuid
+  metric                QuotaMetric
+  periodStart           DateTime       @map("period_start") @db.Timestamptz(6)
+  periodEnd             DateTime       @map("period_end") @db.Timestamptz(6)
+  limitValue            BigInt         @map("limit_value")
+  usedValue             BigInt         @default(0) @map("used_value")
+  lastThresholdNotified Int            @default(0) @map("last_threshold_notified")
+  billingAccount        BillingAccount @relation(fields: [billingAccountId], references: [id], onDelete: Cascade)
+
+  @@unique([billingAccountId, metric, periodStart])
+  @@index([periodEnd])
+  @@map("quota_counters")
+}
+
+model MemberQuota {
+  id             String       @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  userId         String       @map("user_id") @db.Uuid
+  metric         QuotaMetric
+  limitValue     BigInt       @map("limit_value")
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId, metric])
+  @@index([userId])
+  @@map("member_quotas")
+}
+
+model WebhookEvent {
+  id          String    @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  provider    String
+  eventId     String    @map("event_id")
+  type        String
+  payload     Json      @db.JsonB
+  processedAt DateTime? @map("processed_at") @db.Timestamptz(6)
+  error       String?
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([provider, eventId])
+  @@index([processedAt])
+  @@map("webhook_events")
+}
+
+model Notification {
+  id             String                 @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  userId         String                 @map("user_id") @db.Uuid
+  organizationId String?                @map("organization_id") @db.Uuid
+  type           NotificationType
+  title          String
+  body           String
+  data           Json                   @default("{}") @db.JsonB
+  readAt         DateTime?              @map("read_at") @db.Timestamptz(6)
+  createdAt      DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
+  user           User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization?          @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  deliveries     NotificationDelivery[]
+
+  @@index([userId, readAt, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  userId String           @map("user_id") @db.Uuid
+  type   NotificationType
+  inApp  Boolean          @default(true) @map("in_app")
+  email  Boolean          @default(false)
+  user   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, type])
+  @@map("notification_preferences")
+}
+
+model NotificationDelivery {
+  id             String          @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  notificationId String          @map("notification_id") @db.Uuid
+  channel        DeliveryChannel
+  status         DeliveryStatus  @default(QUEUED)
+  error          String?
+  sentAt         DateTime?       @map("sent_at") @db.Timestamptz(6)
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  notification   Notification    @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@index([notificationId, channel])
+  @@map("notification_deliveries")
+}
+
+model Folder {
+  id             String           @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  ownerId        String           @map("owner_id") @db.Uuid
+  organizationId String?          @map("organization_id") @db.Uuid
+  parentId       String?          @map("parent_id") @db.Uuid
+  name           String
+  path           String           @db.Text
+  depth          Int              @default(0)
+  visibility     FolderVisibility @default(PRIVATE)
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt      DateTime?        @map("deleted_at") @db.Timestamptz(6)
+  owner          User             @relation("FolderOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  organization   Organization?    @relation("FolderOrganization", fields: [organizationId], references: [id], onDelete: Cascade)
+  parent         Folder?          @relation("FolderTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children       Folder[]         @relation("FolderTree")
+  documents      Document[]
+
+  @@index([parentId])
+  @@index([ownerId, organizationId])
+  @@map("folders")
+}
+
+model Document {
+  id               String             @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  folderId         String             @map("folder_id") @db.Uuid
+  ownerId          String             @map("owner_id") @db.Uuid
+  organizationId   String?            @map("organization_id") @db.Uuid
+  title            String
+  sourceType       DocumentSourceType @map("source_type")
+  sourceUrl        String?            @map("source_url")
+  originalFilename String?            @map("original_filename")
+  mimeType         String?            @map("mime_type")
+  extension        String?
+  sizeBytes        BigInt             @map("size_bytes")
+  storageKey       String             @map("storage_key")
+  sha256           String
+  language         String?
+  status           DocumentStatus     @default(UPLOADED)
+  errorMessage     String?            @map("error_message")
+  pageCount        Int?               @map("page_count")
+  chunkCount       Int                @default(0) @map("chunk_count")
+  version          Int                @default(1)
+  tags             String[]           @default([])
+  uploadedById     String             @map("uploaded_by") @db.Uuid
+  processedAt      DateTime?          @map("processed_at") @db.Timestamptz(6)
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime           @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt        DateTime?          @map("deleted_at") @db.Timestamptz(6)
+  folder           Folder             @relation(fields: [folderId], references: [id], onDelete: Restrict)
+  owner            User               @relation("DocumentOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  organization     Organization?      @relation("DocumentOrganization", fields: [organizationId], references: [id], onDelete: Cascade)
+  uploadedBy       User               @relation("DocumentUploader", fields: [uploadedById], references: [id], onDelete: Restrict)
+  versions         DocumentVersion[]
+  chunks           DocumentChunk[]
+  ingestionJobs    IngestionJob[]
+  citations        MessageCitation[]
+
+  @@unique([ownerId, sha256, folderId])
+  @@index([folderId])
+  @@index([ownerId, createdAt(sort: Desc)])
+  @@index([organizationId, status])
+  @@index([tags], type: Gin)
+  @@map("documents")
+}
+
+model DocumentVersion {
+  id          String   @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  documentId  String   @map("document_id") @db.Uuid
+  version     Int
+  storageKey  String   @map("storage_key")
+  sizeBytes   BigInt   @map("size_bytes")
+  sha256      String
+  createdById String   @map("created_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  createdBy   User     @relation("VersionCreator", fields: [createdById], references: [id], onDelete: Restrict)
+
+  @@unique([documentId, version])
+  @@index([createdById])
+  @@map("document_versions")
+}
+
+model DocumentChunk {
+  id             String                       @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  documentId     String                       @map("document_id") @db.Uuid
+  chunkIndex     Int                          @map("chunk_index")
+  content        String                       @db.Text
+  tokenCount     Int                          @map("token_count")
+  pageNumber     Int?                         @map("page_number")
+  sectionTitle   String?                      @map("section_title")
+  embedding      Unsupported("vector(1024)")?
+  tsv            Unsupported("tsvector")?
+  metadata       Json                         @default("{}") @db.JsonB
+  ownerId        String                       @map("owner_id") @db.Uuid
+  organizationId String?                      @map("organization_id") @db.Uuid
+  folderId       String                       @map("folder_id") @db.Uuid
+  createdAt      DateTime                     @default(now()) @map("created_at") @db.Timestamptz(6)
+  document       Document                     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  citations      MessageCitation[]
+
+  @@unique([documentId, chunkIndex])
+  @@index([ownerId, organizationId, folderId])
+  @@map("document_chunks")
+}
+
+model AccessGrant {
+  id            String         @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  resourceType  ResourceType   @map("resource_type")
+  resourceId    String         @map("resource_id") @db.Uuid
+  principalType PrincipalType  @map("principal_type")
+  principalId   String         @map("principal_id") @db.Uuid
+  access        ResourceAccess
+  grantedById   String         @map("granted_by") @db.Uuid
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  grantedBy     User           @relation("Grantor", fields: [grantedById], references: [id], onDelete: Restrict)
+
+  @@unique([resourceType, resourceId, principalType, principalId])
+  @@index([principalType, principalId])
+  @@map("access_grants")
+}
+
+model IngestionJob {
+  id         String         @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  documentId String         @map("document_id") @db.Uuid
+  stage      IngestionStage
+  status     JobStatus      @default(QUEUED)
+  attempts   Int            @default(0)
+  error      String?
+  startedAt  DateTime?      @map("started_at") @db.Timestamptz(6)
+  finishedAt DateTime?      @map("finished_at") @db.Timestamptz(6)
+  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  document   Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@index([documentId, stage, createdAt])
+  @@map("ingestion_jobs")
+}
+
+model Conversation {
+  id             String        @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  userId         String        @map("user_id") @db.Uuid
+  organizationId String?       @map("organization_id") @db.Uuid
+  title          String?
+  folderScope    String[]      @default([]) @map("folder_scope") @db.Uuid
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization? @relation("ConversationOrganization", fields: [organizationId], references: [id], onDelete: SetNull)
+  messages       Message[]
+
+  @@index([userId, updatedAt(sort: Desc)])
+  @@index([organizationId, updatedAt(sort: Desc)])
+  @@map("conversations")
+}
+
+model Message {
+  id             String            @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  conversationId String            @map("conversation_id") @db.Uuid
+  role           MessageRole
+  content        String            @db.Text
+  modeWeb        Boolean           @default(false) @map("mode_web")
+  modeThinking   Boolean           @default(false) @map("mode_thinking")
+  modeDeep       Boolean           @default(false) @map("mode_deep")
+  inputTokens    Int?              @map("input_tokens")
+  outputTokens   Int?              @map("output_tokens")
+  latencyMs      Int?              @map("latency_ms")
+  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  conversation   Conversation      @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  citations      MessageCitation[]
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
+
+model MessageCitation {
+  id         String             @id @default(dbgenerated("uuid_generate_v7()")) @db.Uuid
+  messageId  String             @map("message_id") @db.Uuid
+  rank       Int
+  label      String
+  sourceKind CitationSourceKind @map("source_kind")
+  chunkId    String?            @map("chunk_id") @db.Uuid
+  documentId String?            @map("document_id") @db.Uuid
+  url        String?
+  title      String?
+  snippet    String?
+  score      Float?
+  pageNumber Int?               @map("page_number")
+  message    Message            @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  chunk      DocumentChunk?     @relation(fields: [chunkId], references: [id], onDelete: SetNull)
+  document   Document?          @relation(fields: [documentId], references: [id], onDelete: SetNull)
+
+  @@unique([messageId, rank])
+  @@index([chunkId])
+  @@index([documentId])
+  @@map("message_citations")
+}
+
+model SystemSetting {
+  key         String   @id
+  value       Json     @db.JsonB
+  updatedById String?  @map("updated_by") @db.Uuid
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("system_settings")
+}
+
+model FeatureFlag {
+  key      String  @id
+  enabled  Boolean @default(false)
+  audience Json    @default("{}") @db.JsonB
+
+  @@map("feature_flags")
+}

@@ -18,7 +18,7 @@ Open Copilot Chat → mode **Agent** → type `/` and choose the prompt (or open
 | # | Prompt file | What you get | Accounts/keys needed first | Verify |
 |---|---|---|---|---|
 | 0 | `00-bootstrap` | Monorepo, web/api skeleton, docker infra, CI | none | `cp .env.example .env` → `pnpm install` → `pnpm infra:up` → `pnpm db:migrate` → `pnpm dev`; open web + `/health` |
-| 1 | `01-database-schema` | Full Prisma schema, migrations, pgvector, seed | none | `pnpm db:migrate && pnpm db:seed`; `pnpm db:studio` shows tables |
+| 1 | `01-database-schema` | Full Prisma schema, migrations, pgvector, seed | Set `SEED_SUPER_ADMIN_PASSWORD` in `.env` | `pnpm db:migrate && pnpm db:seed`; `pnpm --filter @meetx/api test:integration`; `pnpm db:studio` shows tables |
 | 2 | `02-auth-rbac-organizations` | Login, roles, orgs, permission checks, audit logs | Google OAuth (optional at first; email login works without) | log in as seeded Super Admin; RBAC tests pass |
 | 3 | `03-backend-core` | Settings, persona, meetings, glossary, export | none | API tests pass; `/docs` swagger |
 | 4 | `04-realtime-pipeline` | Voice-to-voice translation engine | STT, LLM, TTS keys (or fake providers) | `pnpm --filter api demo:cli` outputs translated audio |
@@ -39,7 +39,7 @@ Recommended order for a fast first demo: 0 → 1 → 2 → 3 → 4 → 5 → 9 �
 ## Stage 3 — Accounts & keys (register only when the phase needs them)
 - **Google OAuth** (phase 2): Google Cloud Console → new project → OAuth consent screen (External, add yourself as test user) → Credentials → OAuth client ID (Web) → redirect `http://localhost:3000/api/auth/callback/google` → copy ID/secret to `.env`.
 - **Deepgram** (phase 4): console.deepgram.com → API Keys → `STT_API_KEY`. First verify vi/ja streaming support for the chosen model.
-- **LLM** (phases 4, 7): Anthropic or OpenAI key → `TRANSLATE_*`, `ANSWER_*`. 
+- **LLM** (phases 4, 7): Anthropic or OpenAI key → `TRANSLATE_*`, `ANSWER_*`.
 - **ElevenLabs** (phase 4): API key → `TTS_API_KEY`; choose male/female voice IDs that support vi/ja/en.
 - **Embeddings** (phase 7): choose a multilingual model; set `EMBEDDING_*` and keep `EMBEDDING_DIM` equal to the model output size.
 - **Web search** (phase 7, optional): Tavily or Brave key → `WEB_SEARCH_*`.
@@ -63,7 +63,7 @@ Run the demo script in `docs/11-testing-strategy.md`, then the RBAC and billing 
 |---|---|
 | `ERR_PNPM_NO_PKG_MANIFEST` | You are not in the project root or phase 00 not done |
 | `cp` not found (PowerShell) | `Copy-Item .env.example .env` |
-| `pnpm infra:up` fails | Start Docker Desktop; check ports 5432/6379/7880 are free |
+| `pnpm infra:up` fails                    | Start Docker Desktop; check ports 5432/6379/7880 are free or set `POSTGRES_PORT` and `REDIS_PORT` in `.env`, keeping `DATABASE_URL` and `REDIS_URL` in sync |
 | Prisma: extension "vector" not available | Use the `pgvector/pgvector` Postgres image in compose |
 | `EADDRINUSE` | Another process uses the port; change port in `.env` or stop it |
 | Embedding dimension mismatch | Make `EMBEDDING_DIM` equal to model size, recreate the vector column via migration |

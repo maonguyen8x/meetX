@@ -48,7 +48,7 @@ const environmentSchema = z.object({
   EMBEDDING_PROVIDER: optionalString,
   EMBEDDING_API_KEY: optionalString,
   EMBEDDING_MODEL: optionalString,
-  EMBEDDING_DIM: z.coerce.number().int().positive().default(1024),
+  EMBEDDING_DIM: z.coerce.number().int().min(1).max(2000).default(1024),
   ANSWER_MODEL: optionalString,
   ANSWER_REASONING_MODEL: optionalString,
   DEEP_MAX_STEPS: z.coerce.number().int().positive().default(4),
