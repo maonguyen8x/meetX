@@ -11,7 +11,7 @@
     "lint": "eslint src prisma scripts",
     "typecheck": "tsc --noEmit",
     "test": "dotenv -e ../../.env.example -- vitest run --exclude **/*.integration.test.ts",
-    "db:migrate": "dotenv -e ../../.env -- prisma migrate deploy --schema prisma/schema.prisma",
+    "db:migrate": "dotenv -e ../../.env -- prisma migrate dev --schema prisma/schema.prisma",
     "db:seed": "dotenv -e ../../.env -- prisma db seed --schema prisma/schema.prisma",
     "db:studio": "dotenv -e ../../.env -- prisma studio --schema prisma/schema.prisma",
     "db:set-embedding-dim": "tsx scripts/set-embedding-dim.ts && pnpm db:generate",

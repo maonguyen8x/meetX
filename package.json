@@ -13,8 +13,8 @@
     "db:seed": "pnpm --filter @meetx/api db:seed",
     "db:studio": "pnpm --filter @meetx/api db:studio",
     "db:set-embedding-dim": "pnpm --filter @meetx/api db:set-embedding-dim",
-    "infra:up": "docker compose --env-file .env -f infra/docker-compose.yml up -d",
-    "infra:down": "docker compose --env-file .env -f infra/docker-compose.yml down"
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml down"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.3.0",

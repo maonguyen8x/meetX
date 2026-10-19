@@ -85,6 +85,6 @@ describe('database constraints and idempotent seed', () => {
           data: { balanceCredits: -1n },
         }),
       ),
-    ).rejects.toThrow('wallets_balance_credits_non_negative');
+    ).rejects.toThrow(/wallets_balance_credits_non_negative/);
   });
 });

@@ -1361,12 +1361,12 @@ ALTER TABLE "message_citations" ADD CONSTRAINT "message_citations_chunk_id_fkey"
 -- AddForeignKey
 ALTER TABLE "message_citations" ADD CONSTRAINT "message_citations_document_id_fkey" FOREIGN KEY ("document_id") REFERENCES "documents"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
-CREATE INDEX "folders_path_trgm_idx"
-ON "folders" USING GIN ("path" gin_trgm_ops);
-
 CREATE UNIQUE INDEX "folders_owner_org_parent_lower_name_active_key"
 ON "folders" ("owner_id", "organization_id", "parent_id", lower("name")) NULLS NOT DISTINCT
 WHERE "deleted_at" IS NULL;
+
+CREATE INDEX "folders_path_trgm_idx"
+ON "folders" USING GIN ("path" gin_trgm_ops);
 
 CREATE INDEX "document_chunks_tsv_idx"
 ON "document_chunks" USING GIN ("tsv");

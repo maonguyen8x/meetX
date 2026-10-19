@@ -63,7 +63,7 @@ Run the demo script in `docs/11-testing-strategy.md`, then the RBAC and billing 
 |---|---|
 | `ERR_PNPM_NO_PKG_MANIFEST` | You are not in the project root or phase 00 not done |
 | `cp` not found (PowerShell) | `Copy-Item .env.example .env` |
-| `pnpm infra:up` fails                    | Start Docker Desktop; check ports 5432/6379/7880 are free or set `POSTGRES_PORT` and `REDIS_PORT` in `.env`, keeping `DATABASE_URL` and `REDIS_URL` in sync |
+| `pnpm infra:up` fails | Start Docker Desktop; check ports 5432/6379/7880 are free |
 | Prisma: extension "vector" not available | Use the `pgvector/pgvector` Postgres image in compose |
 | `EADDRINUSE` | Another process uses the port; change port in `.env` or stop it |
 | Embedding dimension mismatch | Make `EMBEDDING_DIM` equal to model size, recreate the vector column via migration |
