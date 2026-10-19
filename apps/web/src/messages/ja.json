@@ -4,5 +4,107 @@
     "title": "あらゆる言語で、もっと伝わる会話を。",
     "description": "チームの相互理解を支える、リアルタイム通訳とナレッジ検索。",
     "availableLanguages": "利用可能なインターフェース言語"
+  },
+  "Auth": {
+    "backToLogin": "ログインに戻る",
+    "fields": {
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "newPassword": "新しいパスワード",
+      "currentPassword": "現在のパスワード",
+      "name": "氏名",
+      "organizationName": "組織名",
+      "passwordHint": "12文字以上で入力してください。"
+    },
+    "login": {
+      "title": "ログイン",
+      "subtitle": "Interpreter AI へおかえりなさい。",
+      "submit": "ログイン",
+      "forgot": "パスワードをお忘れですか？",
+      "register": "アカウントを作成"
+    },
+    "register": {
+      "title": "アカウント作成",
+      "subtitle": "メールアドレス確認用のリンクをお送りします。",
+      "business": "法人アカウントとして登録する",
+      "submit": "アカウントを作成",
+      "doneTitle": "メールをご確認ください",
+      "doneBody": "登録可能なアドレスの場合、確認リンクを送信しました。"
+    },
+    "forgot": {
+      "title": "パスワードの再設定",
+      "subtitle": "メールアドレスを入力すると、再設定リンクをお送りします。",
+      "submit": "再設定リンクを送信",
+      "done": "該当するアカウントがある場合、再設定リンクを送信しました。"
+    },
+    "reset": {
+      "title": "新しいパスワードの設定",
+      "subtitle": "他のサービスで使っていないパスワードを設定してください。",
+      "submit": "パスワードを保存",
+      "done": "パスワードを保存しました。ログインできます。"
+    },
+    "verify": {
+      "title": "メールアドレスの確認",
+      "pending": "メールアドレスを確認しています…",
+      "ok": "メールアドレスを確認しました。ログインできます。",
+      "failed": "このリンクは無効か、有効期限が切れています。"
+    },
+    "invite": {
+      "title": "組織に参加",
+      "subtitle": "招待を受けるにはアカウントを作成してください。",
+      "submit": "招待を承諾",
+      "existing": "このメールアドレスのアカウントをお持ちの場合は、先にログインしてから招待リンクを開き直してください。"
+    },
+    "change": {
+      "title": "パスワードの変更",
+      "subtitle": "続行する前に新しいパスワードを設定してください。",
+      "submit": "パスワードを変更"
+    },
+    "errors": {
+      "UNKNOWN": "問題が発生しました。もう一度お試しください。",
+      "NETWORK_ERROR": "サーバーに接続できません。接続を確認してください。",
+      "UPSTREAM_UNAVAILABLE": "サービスは一時的に利用できません。",
+      "VALIDATION_ERROR": "入力内容を確認してください。",
+      "INVALID_CREDENTIALS": "メールアドレスまたはパスワードが正しくありません。",
+      "EMAIL_NOT_VERIFIED": "ログイン前にメールアドレスを確認してください。",
+      "ACCOUNT_INACTIVE": "このアカウントは無効です。",
+      "TOO_MANY_ATTEMPTS": "試行回数が多すぎます。しばらくしてからお試しください。",
+      "RATE_LIMITED": "リクエストが多すぎます。しばらくお待ちください。",
+      "INVALID_TOKEN": "このリンクは無効か、有効期限が切れています。",
+      "INVITATION_INVALID": "この招待は無効か、有効期限が切れています。",
+      "LOGIN_REQUIRED": "先に招待されたアカウントでログインしてください。",
+      "REAUTH_FAILED": "パスワードの確認に失敗しました。",
+      "FORBIDDEN": "この操作を行う権限がありません。",
+      "EMAIL_TAKEN": "このメールアドレスは既に使用されています。",
+      "LAST_SUPER_ADMIN": "最後の有効なスーパー管理者は変更できません。",
+      "SEAT_LIMIT_REACHED": "メンバー数の上限に達しました。",
+      "PASSWORD_CHANGE_REQUIRED": "先にパスワードを変更してください。"
+    }
+  },
+  "Shell": {
+    "loading": "読み込み中…",
+    "dashboard": "ダッシュボード",
+    "admin": "管理",
+    "signOut": "ログアウト"
+  },
+  "Dashboard": {
+    "welcome": "ようこそ、{name}さん",
+    "role": "アカウント種別: {role}",
+    "roles": { "SUPER_ADMIN": "スーパー管理者", "ADMIN": "管理者", "USER": "ユーザー" },
+    "orgRoles": { "ORG_ADMIN": "組織管理者", "ORG_MEMBER": "メンバー" },
+    "organizations": "組織",
+    "noOrganizations": "所属している組織はありません。"
+  },
+  "AdminUsers": {
+    "title": "アカウント",
+    "name": "名前",
+    "email": "メールアドレス",
+    "role": "ロール",
+    "status": "状態",
+    "kindUser": "ユーザー",
+    "kindAdmin": "管理者",
+    "create": "作成して招待を送信",
+    "activate": "有効化",
+    "deactivate": "無効化"
   }
 }

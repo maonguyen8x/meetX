@@ -4,5 +4,107 @@
     "title": "A clearer conversation, in every language.",
     "description": "Real-time interpretation and knowledge search, designed to help teams understand each other.",
     "availableLanguages": "Available interface languages"
+  },
+  "Auth": {
+    "backToLogin": "Back to sign in",
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New password",
+      "currentPassword": "Current password",
+      "name": "Full name",
+      "organizationName": "Organization name",
+      "passwordHint": "At least 12 characters."
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Welcome back to Interpreter AI.",
+      "submit": "Sign in",
+      "forgot": "Forgot password?",
+      "register": "Create an account"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "We will email you a link to verify your address.",
+      "business": "This is a business account",
+      "submit": "Create account",
+      "doneTitle": "Check your inbox",
+      "doneBody": "If the address can be registered, a verification link is on its way."
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we will send a reset link.",
+      "submit": "Send reset link",
+      "done": "If an account exists for that email, a reset link has been sent."
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "subtitle": "Use a password you do not use anywhere else.",
+      "submit": "Save password",
+      "done": "Your password has been saved. You can sign in now."
+    },
+    "verify": {
+      "title": "Email verification",
+      "pending": "Verifying your email…",
+      "ok": "Your email is verified. You can sign in now.",
+      "failed": "This link is invalid or has expired."
+    },
+    "invite": {
+      "title": "Join the organization",
+      "subtitle": "Create your account to accept the invitation.",
+      "submit": "Accept invitation",
+      "existing": "Already have an account with this email? Sign in first, then open the invitation link again."
+    },
+    "change": {
+      "title": "Change your password",
+      "subtitle": "You must set a new password before continuing.",
+      "submit": "Change password"
+    },
+    "errors": {
+      "UNKNOWN": "Something went wrong. Please try again.",
+      "NETWORK_ERROR": "Cannot reach the server. Check your connection.",
+      "UPSTREAM_UNAVAILABLE": "The service is temporarily unavailable.",
+      "VALIDATION_ERROR": "Please check the information you entered.",
+      "INVALID_CREDENTIALS": "Email or password is incorrect.",
+      "EMAIL_NOT_VERIFIED": "Verify your email before signing in.",
+      "ACCOUNT_INACTIVE": "This account is not active.",
+      "TOO_MANY_ATTEMPTS": "Too many attempts. Please wait and try again.",
+      "RATE_LIMITED": "Too many requests. Please wait a moment.",
+      "INVALID_TOKEN": "This link is invalid or has expired.",
+      "INVITATION_INVALID": "This invitation is invalid or has expired.",
+      "LOGIN_REQUIRED": "Sign in with the invited account first.",
+      "REAUTH_FAILED": "Password confirmation failed.",
+      "FORBIDDEN": "You do not have permission to do this.",
+      "EMAIL_TAKEN": "This email is already in use.",
+      "LAST_SUPER_ADMIN": "The last active Super Admin cannot be changed.",
+      "SEAT_LIMIT_REACHED": "The seat limit has been reached.",
+      "PASSWORD_CHANGE_REQUIRED": "You must change your password first."
+    }
+  },
+  "Shell": {
+    "loading": "Loading…",
+    "dashboard": "Dashboard",
+    "admin": "Administration",
+    "signOut": "Sign out"
+  },
+  "Dashboard": {
+    "welcome": "Welcome, {name}",
+    "role": "Account type: {role}",
+    "roles": { "SUPER_ADMIN": "Super Admin", "ADMIN": "Admin", "USER": "User" },
+    "orgRoles": { "ORG_ADMIN": "Organization admin", "ORG_MEMBER": "Member" },
+    "organizations": "Organizations",
+    "noOrganizations": "You are not a member of any organization."
+  },
+  "AdminUsers": {
+    "title": "Accounts",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "kindUser": "User",
+    "kindAdmin": "Admin",
+    "create": "Create and send invite",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
   }
 }

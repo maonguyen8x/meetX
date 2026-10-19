@@ -4,5 +4,107 @@
     "title": "Cuộc trò chuyện rõ ràng hơn, bằng mọi ngôn ngữ.",
     "description": "Phiên dịch thời gian thực và tìm kiếm tri thức giúp các nhóm thấu hiểu nhau hơn.",
     "availableLanguages": "Ngôn ngữ giao diện hiện có"
+  },
+  "Auth": {
+    "backToLogin": "Quay lại đăng nhập",
+    "fields": {
+      "email": "Email",
+      "password": "Mật khẩu",
+      "newPassword": "Mật khẩu mới",
+      "currentPassword": "Mật khẩu hiện tại",
+      "name": "Họ và tên",
+      "organizationName": "Tên tổ chức",
+      "passwordHint": "Tối thiểu 12 ký tự."
+    },
+    "login": {
+      "title": "Đăng nhập",
+      "subtitle": "Chào mừng bạn quay lại Interpreter AI.",
+      "submit": "Đăng nhập",
+      "forgot": "Quên mật khẩu?",
+      "register": "Tạo tài khoản"
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Chúng tôi sẽ gửi liên kết xác minh đến email của bạn.",
+      "business": "Đây là tài khoản doanh nghiệp",
+      "submit": "Tạo tài khoản",
+      "doneTitle": "Hãy kiểm tra hộp thư",
+      "doneBody": "Nếu địa chỉ có thể đăng ký, liên kết xác minh đang được gửi đến bạn."
+    },
+    "forgot": {
+      "title": "Đặt lại mật khẩu",
+      "subtitle": "Nhập email, chúng tôi sẽ gửi liên kết đặt lại.",
+      "submit": "Gửi liên kết",
+      "done": "Nếu email có tài khoản, liên kết đặt lại đã được gửi."
+    },
+    "reset": {
+      "title": "Chọn mật khẩu mới",
+      "subtitle": "Hãy dùng mật khẩu chưa dùng ở nơi khác.",
+      "submit": "Lưu mật khẩu",
+      "done": "Đã lưu mật khẩu. Bạn có thể đăng nhập ngay."
+    },
+    "verify": {
+      "title": "Xác minh email",
+      "pending": "Đang xác minh email…",
+      "ok": "Email đã được xác minh. Bạn có thể đăng nhập.",
+      "failed": "Liên kết không hợp lệ hoặc đã hết hạn."
+    },
+    "invite": {
+      "title": "Tham gia tổ chức",
+      "subtitle": "Tạo tài khoản để chấp nhận lời mời.",
+      "submit": "Chấp nhận lời mời",
+      "existing": "Đã có tài khoản với email này? Hãy đăng nhập trước rồi mở lại liên kết mời."
+    },
+    "change": {
+      "title": "Đổi mật khẩu",
+      "subtitle": "Bạn cần đặt mật khẩu mới trước khi tiếp tục.",
+      "submit": "Đổi mật khẩu"
+    },
+    "errors": {
+      "UNKNOWN": "Đã xảy ra lỗi. Vui lòng thử lại.",
+      "NETWORK_ERROR": "Không thể kết nối máy chủ. Hãy kiểm tra mạng.",
+      "UPSTREAM_UNAVAILABLE": "Dịch vụ tạm thời không khả dụng.",
+      "VALIDATION_ERROR": "Vui lòng kiểm tra lại thông tin đã nhập.",
+      "INVALID_CREDENTIALS": "Email hoặc mật khẩu không đúng.",
+      "EMAIL_NOT_VERIFIED": "Hãy xác minh email trước khi đăng nhập.",
+      "ACCOUNT_INACTIVE": "Tài khoản này không hoạt động.",
+      "TOO_MANY_ATTEMPTS": "Quá nhiều lần thử. Vui lòng chờ rồi thử lại.",
+      "RATE_LIMITED": "Quá nhiều yêu cầu. Vui lòng chờ giây lát.",
+      "INVALID_TOKEN": "Liên kết không hợp lệ hoặc đã hết hạn.",
+      "INVITATION_INVALID": "Lời mời không hợp lệ hoặc đã hết hạn.",
+      "LOGIN_REQUIRED": "Hãy đăng nhập bằng tài khoản được mời trước.",
+      "REAUTH_FAILED": "Xác nhận mật khẩu không thành công.",
+      "FORBIDDEN": "Bạn không có quyền thực hiện thao tác này.",
+      "EMAIL_TAKEN": "Email này đã được sử dụng.",
+      "LAST_SUPER_ADMIN": "Không thể thay đổi Super Admin hoạt động cuối cùng.",
+      "SEAT_LIMIT_REACHED": "Đã đạt giới hạn số thành viên.",
+      "PASSWORD_CHANGE_REQUIRED": "Bạn cần đổi mật khẩu trước."
+    }
+  },
+  "Shell": {
+    "loading": "Đang tải…",
+    "dashboard": "Bảng điều khiển",
+    "admin": "Quản trị",
+    "signOut": "Đăng xuất"
+  },
+  "Dashboard": {
+    "welcome": "Xin chào, {name}",
+    "role": "Loại tài khoản: {role}",
+    "roles": { "SUPER_ADMIN": "Super Admin", "ADMIN": "Admin", "USER": "Người dùng" },
+    "orgRoles": { "ORG_ADMIN": "Quản trị tổ chức", "ORG_MEMBER": "Thành viên" },
+    "organizations": "Tổ chức",
+    "noOrganizations": "Bạn chưa thuộc tổ chức nào."
+  },
+  "AdminUsers": {
+    "title": "Tài khoản",
+    "name": "Tên",
+    "email": "Email",
+    "role": "Vai trò",
+    "status": "Trạng thái",
+    "kindUser": "Người dùng",
+    "kindAdmin": "Admin",
+    "create": "Tạo và gửi lời mời",
+    "activate": "Kích hoạt",
+    "deactivate": "Vô hiệu hóa"
   }
 }
