@@ -7,14 +7,17 @@ import { logger } from './utils/logger.js';
 
 async function main(): Promise<void> {
   await redis.connect();
-  const app = buildApp({
-    database: async () => {
-      await postgres.query('SELECT 1');
+  const app = buildApp(
+    {
+      database: async () => {
+        await postgres.query('SELECT 1');
+      },
+      redis: async () => {
+        await redis.ping();
+      },
     },
-    redis: async () => {
-      await redis.ping();
-    },
-  });
+    { redis, rateLimit: true },
+  );
 
   app.addHook('onClose', async () => {
     await Promise.all([postgres.end(), redis.quit(), prisma.$disconnect()]);

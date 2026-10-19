@@ -1,5 +1,5 @@
 import argon2 from 'argon2';
-import { PERMISSIONS } from '@meetx/shared';
+import { PERMISSIONS, ROLE_PERMISSIONS } from '@meetx/shared';
 import { PrismaClient } from '@prisma/client';
 import type { Prisma } from '@prisma/client';
 
@@ -8,46 +8,7 @@ import { logger } from '../src/utils/logger.js';
 
 type SeedClient = Prisma.TransactionClient;
 
-const rolePermissions: Record<string, readonly string[]> = {
-  SUPER_ADMIN: PERMISSIONS,
-  ADMIN: [
-    'users.read',
-    'orgs.read',
-    'billing.read.all',
-    'kb.read',
-    'interpreter.use',
-    'usage.read.all',
-    'audit.read',
-  ],
-  USER: [
-    'billing.read.own',
-    'billing.manage.own',
-    'kb.read',
-    'kb.write',
-    'kb.share',
-    'interpreter.use',
-    'usage.read.own',
-  ],
-  ORG_ADMIN: [
-    'orgs.read',
-    'orgs.update',
-    'org.members.read',
-    'org.members.manage',
-    'org.settings.manage',
-    'org.billing.manage',
-    'org.quota.manage',
-    'billing.read.own',
-    'billing.manage.own',
-    'kb.read',
-    'kb.write',
-    'kb.share',
-    'interpreter.use',
-    'usage.read.own',
-    'usage.read.all',
-    'audit.read',
-  ],
-  ORG_MEMBER: ['kb.read', 'interpreter.use', 'usage.read.own'],
-};
+const rolePermissions: Record<string, readonly string[]> = ROLE_PERMISSIONS;
 
 const defaultPlans = [
   {
