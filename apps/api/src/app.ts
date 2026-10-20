@@ -1,6 +1,9 @@
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
+import multipart from '@fastify/multipart';
 import rateLimit from '@fastify/rate-limit';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 import Fastify from 'fastify';
 import type { Redis } from 'ioredis';
 
@@ -13,8 +16,19 @@ import { MemoryLoginThrottle, RedisLoginThrottle } from './modules/auth/login-th
 import type { LoginThrottle } from './modules/auth/login-throttle.js';
 import { createOrganizationsService } from './modules/organizations/organizations.service.js';
 import { registerOrganizationRoutes } from './modules/organizations/organizations.routes.js';
+import { createMeetingsRepository } from './modules/meetings/meetings.repository.js';
+import { createMeetingsService } from './modules/meetings/meetings.service.js';
+import { registerMeetingRoutes } from './modules/meetings/meetings.routes.js';
+import { createGlossaryRepository } from './modules/memory/glossary.repository.js';
+import { createMemoryService } from './modules/memory/memory.service.js';
+import { registerMemoryRoutes } from './modules/memory/memory.routes.js';
+import { LocalAvatarStorage } from './modules/settings/avatar-storage.js';
+import type { AvatarStorage } from './modules/settings/avatar-storage.js';
+import { createSettingsRepository } from './modules/settings/settings.repository.js';
+import { createSettingsService } from './modules/settings/settings.service.js';
+import { registerSettingsRoutes } from './modules/settings/settings.routes.js';
 import { registerUserRoutes } from './modules/users/users.routes.js';
-import { registerAuthPlugin } from './plugins/auth.js';
+import { authenticateRequest, registerAuthPlugin } from './plugins/auth.js';
 import { registerErrorHandler } from './plugins/error-handler.js';
 import { createEmailProvider } from './providers/email/index.js';
 import type { EmailProvider } from './providers/email/email.provider.js';
@@ -30,6 +44,8 @@ export interface AppOptions {
   rateLimit?: boolean;
   throttle?: LoginThrottle;
   mailer?: EmailProvider;
+  avatarStorage?: AvatarStorage;
+  dataEncryptionKey?: string;
 }
 
 export function buildApp(readinessChecks: ReadinessChecks, options: AppOptions = {}) {
@@ -45,6 +61,26 @@ export function buildApp(readinessChecks: ReadinessChecks, options: AppOptions =
     origin: env.CORS_ORIGINS.split(',').map((origin) => origin.trim()),
     credentials: true,
   });
+  void app.register(multipart, {
+    limits: { fileSize: 2 * 1024 * 1024, files: 1, fields: 0 },
+  });
+  void app.register(swagger, {
+    openapi: {
+      info: { title: 'Interpreter AI API', version: '1.0.0' },
+      components: {
+        securitySchemes: {
+          bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+        },
+      },
+      security: [{ bearerAuth: [] }],
+      tags: [
+        { name: 'Settings', description: 'Interpreter persona and voice settings' },
+        { name: 'Meetings', description: 'Meeting history, transcript, and export' },
+        { name: 'Memory', description: 'Personal and organization glossary' },
+      ],
+    },
+  });
+  void app.register(swaggerUi, { routePrefix: '/docs' });
   if (options.rateLimit ?? false) {
     void app.register(rateLimit, {
       global: true,
@@ -54,6 +90,11 @@ export function buildApp(readinessChecks: ReadinessChecks, options: AppOptions =
     });
   }
   void registerAuthPlugin(app);
+  app.addHook('onRequest', async (request) => {
+    if (request.url === '/docs' || request.url.startsWith('/docs/')) {
+      await authenticateRequest(request);
+    }
+  });
 
   const mailer = options.mailer ?? createEmailProvider();
   const throttle =
@@ -67,6 +108,18 @@ export function buildApp(readinessChecks: ReadinessChecks, options: AppOptions =
   registerUserRoutes(app);
   registerAdminRoutes(app, createAdminUsersService(auth));
   registerOrganizationRoutes(app, createOrganizationsService({ auth, mailer }));
+  registerSettingsRoutes(
+    app,
+    createSettingsService(
+      createSettingsRepository(),
+      options.avatarStorage ?? new LocalAvatarStorage(),
+    ),
+  );
+  registerMeetingRoutes(
+    app,
+    createMeetingsService(createMeetingsRepository(), options.dataEncryptionKey),
+  );
+  registerMemoryRoutes(app, createMemoryService(createGlossaryRepository()));
 
   app.get('/health', async () => ({ status: 'ok' }));
 

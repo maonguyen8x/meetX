@@ -18,6 +18,7 @@ const environmentSchema = z.object({
   REDIS_URL: z.string().url(),
   JWT_SECRET: z.string().min(32),
   DATA_ENCRYPTION_KEY: optionalString,
+  AVATAR_STORAGE_DIR: optionalString,
   SENTRY_DSN: optionalString,
   GOOGLE_CLIENT_ID: optionalString,
   GOOGLE_CLIENT_SECRET: optionalString,

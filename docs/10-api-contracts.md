@@ -25,6 +25,15 @@ Base: `/v1`. JSON. Errors: `{ "error": { "code": string, "message": string } }`.
 | POST | /billing/checkout | Stripe checkout session |
 | POST | /billing/webhook | Stripe webhook (signature verified) |
 
+### Phase 03 REST behavior
+- All settings, meeting-history, and glossary routes require a bearer access token.
+- `PATCH /settings` accepts persona and voice settings; avatar changes must use the upload endpoint so arbitrary URLs cannot bypass image validation.
+- `POST /settings/avatar` accepts one PNG, JPEG, or WebP image up to 2 MB. The API checks file bytes, re-encodes to WebP, and returns a private avatar URL. Avatar reads are authenticated and owner-scoped.
+- `POST /settings/voice-preview` validates the requested language and returns `503 VOICE_PREVIEW_UNAVAILABLE` until a speech provider is configured.
+- Meeting list requests support `page`, `limit` (maximum 100), and an optional member-scoped `organizationId`. Transcript and summary text is AES-256-GCM encrypted at rest. Meeting deletion removes transcript, participant, summary, and bot child records before marking the meeting deleted.
+- Glossary terms are personal by default. Organization terms require active organization membership to read and `org.settings.manage` to change.
+- Swagger UI is available at `/docs` and requires bearer authentication.
+
 ## WebSocket `/v1/ws/session?token=...`
 Client → Server
 - `{type:"session.start", sourceLang, targetLang, mode, meetingId?}`

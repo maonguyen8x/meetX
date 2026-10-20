@@ -47,6 +47,7 @@ Recommended order for a fast first demo: 0 → 1 → 2 → 3 → 4 → 5 → 9 �
 - **Recall.ai** (phase 6): API key + region; public webhook via `ngrok http 4000` in dev.
 - **Stripe** (phase 11): test-mode secret key; `stripe listen --forward-to localhost:4000/v1/billing/webhook` gives `STRIPE_WEBHOOK_SECRET`.
 - **Secrets you generate yourself**: `JWT_SECRET`, `DATA_ENCRYPTION_KEY` → `openssl rand -base64 32` (or Node: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`).
+- **Phase 03 data protection**: set `DATA_ENCRYPTION_KEY` to a generated 32-byte Base64 key before reading or saving meeting transcripts and summaries. The API returns `ENCRYPTION_KEY_MISSING` rather than storing plaintext when it is unset. Set `AVATAR_STORAGE_DIR` to a persistent writable directory if avatars must survive container replacement.
 
 ## Stage 4 — Working rules with Copilot (saves quota)
 - One phase = one new chat = one branch (`phase/NN-name`) = one commit/PR.
