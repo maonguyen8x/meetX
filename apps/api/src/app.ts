@@ -5,6 +5,7 @@ import rateLimit from '@fastify/rate-limit';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import Fastify from 'fastify';
+import type { FastifyRequest } from 'fastify';
 import type { Redis } from 'ioredis';
 
 import { env } from './config/env.js';
@@ -31,6 +32,14 @@ import { registerUserRoutes } from './modules/users/users.routes.js';
 import { authenticateRequest, registerAuthPlugin } from './plugins/auth.js';
 import { registerErrorHandler } from './plugins/error-handler.js';
 import { createEmailProvider } from './providers/email/index.js';
+import { createSttProvider } from './providers/stt/index.js';
+import { createTranslateProvider } from './providers/translate/index.js';
+import { createTtsProvider } from './providers/tts/index.js';
+import { registerRealtimeGateway } from './realtime/gateway.js';
+import type { RealtimeProviders } from './realtime/gateway.js';
+import { canUseMeeting, loadGlossary } from './realtime/session-context.js';
+import { StubUsageHooks } from './realtime/usage-hooks.js';
+import type { UsageHooks } from './realtime/usage-hooks.js';
 import type { EmailProvider } from './providers/email/email.provider.js';
 
 export interface ReadinessChecks {
@@ -46,11 +55,29 @@ export interface AppOptions {
   mailer?: EmailProvider;
   avatarStorage?: AvatarStorage;
   dataEncryptionKey?: string;
+  /** Overrides vendor providers (tests/demo); defaults to env-configured adapters created on first session. */
+  realtimeProviders?: RealtimeProviders;
+  usageHooks?: UsageHooks;
+}
+
+/** Access tokens travel in the WebSocket query string; never write them to logs. */
+export function redactUrl(url: string): string {
+  return url.replace(/([?&](?:token|access_token)=)[^&]*/gi, '$1[redacted]');
 }
 
 export function buildApp(readinessChecks: ReadinessChecks, options: AppOptions = {}) {
   const app = Fastify({
-    logger: { level: env.LOG_LEVEL },
+    logger: {
+      level: env.LOG_LEVEL,
+      serializers: {
+        req: (request: FastifyRequest) => ({
+          method: request.method,
+          url: redactUrl(request.url),
+          host: request.host,
+          remoteAddress: request.ip,
+        }),
+      },
+    },
     trustProxy: env.NODE_ENV === 'production',
   });
 
@@ -108,18 +135,28 @@ export function buildApp(readinessChecks: ReadinessChecks, options: AppOptions =
   registerUserRoutes(app);
   registerAdminRoutes(app, createAdminUsersService(auth));
   registerOrganizationRoutes(app, createOrganizationsService({ auth, mailer }));
-  registerSettingsRoutes(
-    app,
-    createSettingsService(
-      createSettingsRepository(),
-      options.avatarStorage ?? new LocalAvatarStorage(),
-    ),
+  const settingsService = createSettingsService(
+    createSettingsRepository(),
+    options.avatarStorage ?? new LocalAvatarStorage(),
   );
+  registerSettingsRoutes(app, settingsService);
   registerMeetingRoutes(
     app,
     createMeetingsService(createMeetingsRepository(), options.dataEncryptionKey),
   );
   registerMemoryRoutes(app, createMemoryService(createGlossaryRepository()));
+  registerRealtimeGateway(app, {
+    providers: () =>
+      options.realtimeProviders ?? {
+        stt: createSttProvider(),
+        translate: createTranslateProvider(),
+        tts: createTtsProvider(),
+      },
+    usage: options.usageHooks ?? new StubUsageHooks(),
+    loadSettings: (userId) => settingsService.get(userId),
+    loadGlossary,
+    canUseMeeting,
+  });
 
   app.get('/health', async () => ({ status: 'ok' }));
 
