@@ -46,6 +46,14 @@ Server → Client
 - binary frames tagged by preceding `{type:"translation.audio.start", turnId, format:"pcm16", sampleRate:24000}` and `{type:"translation.audio.end", turnId}`
 - `{type:"usage.tick", creditsUsed, balance, minutesLeft}`
 - `{type:"error", code, message}`
+- `{type:"session.ready", sessionId, resumed}` is sent after `session.start`.
+
+Phase 04 additions
+- Reconnect within 60 s with `?resume=<sessionId>`. Only the owner can resume.
+- The token in the query string is redacted from logs.
+- Error codes: `NOT_STARTED`, `INVALID_MESSAGE`, `INVALID_FRAME`, `RATE_LIMITED`, `BACKPRESSURE`, `SESSION_NOT_FOUND`, `TOO_MANY_SESSIONS`, `PROVIDER_NOT_CONFIGURED`.
+- Limits: 8 KB max client frame, 128 KB/s inbound, 2 sessions per user.
+- Demo without keys: `pnpm --filter @meetx/api demo:cli` (fake providers, writes `demo-output/translated.wav`). Use `--live --input file.wav` with real vendor keys.
 
 ## Webhooks from meeting-bot vendor
 `POST /v1/webhooks/meeting-bot` (signature verified): status changes (`joining`, `in_call`, `ended`, `denied`) → update bot record and notify client.

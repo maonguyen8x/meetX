@@ -1,5 +1,5 @@
-import { CircuitBreaker, ProviderHttpError, callWithResilience } from './resilience.js';
-import type { ResilienceOptions } from './resilience.js';
+import { ProviderHttpError, callWithResilience } from './resilience.js';
+import type { CircuitBreaker, ResilienceOptions } from './resilience.js';
 
 export interface JsonRequest {
   url: string;

@@ -79,6 +79,7 @@ export class PipelineOrchestrator {
   private turn: ActiveTurn | undefined;
   private restartAfterFinalize = false;
   private work: Promise<void> = Promise.resolve();
+  private pendingFinalize: Promise<void> = Promise.resolve();
   private muted = false;
   private ended = false;
   private pendingAudioSeconds = 0;
@@ -142,6 +143,7 @@ export class PipelineOrchestrator {
   async end(): Promise<void> {
     if (this.ended) return;
     if (this.turn) await this.finalizeTurn('manual');
+    await this.pendingFinalize;
     await this.work;
     this.ended = true;
     this.abort.abort();
@@ -221,7 +223,13 @@ export class PipelineOrchestrator {
     });
   }
 
-  private async finalizeTurn(reason: 'silence' | 'trigger' | 'manual'): Promise<void> {
+  private finalizeTurn(reason: 'silence' | 'trigger' | 'manual'): Promise<void> {
+    const run = this.doFinalizeTurn(reason);
+    this.pendingFinalize = this.pendingFinalize.then(() => run);
+    return run;
+  }
+
+  private async doFinalizeTurn(reason: 'silence' | 'trigger' | 'manual'): Promise<void> {
     const turn = this.turn;
     if (!turn || turn.finalizing || !this.stt) return;
     turn.finalizing = true;

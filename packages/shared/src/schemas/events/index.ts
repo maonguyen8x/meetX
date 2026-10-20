@@ -15,22 +15,26 @@ export const interpretModeSchema = z.enum(['translate', 'summarize_turn', 'recap
 export const AUDIO_FRAME_BYTES = 640; // 20 ms of PCM16 mono at 16 kHz
 export const MAX_CLIENT_FRAME_BYTES = 8192;
 
-export const clientMessageSchema = z.discriminatedUnion('type', [
-  z
-    .object({
-      type: z.literal('session.start'),
-      sourceLang: languageCodeSchema,
-      targetLang: languageCodeSchema,
-      mode: interpretModeSchema.default('translate'),
-      meetingId: z.string().uuid().optional(),
-    })
-    .strict()
-    .refine((m) => m.sourceLang !== m.targetLang, 'Languages must be different.'),
-  z.object({ type: z.literal('translate.now') }).strict(),
-  z.object({ type: z.literal('mute.interpreter'), on: z.boolean() }).strict(),
-  z.object({ type: z.literal('recap.request') }).strict(),
-  z.object({ type: z.literal('session.end') }).strict(),
-]);
+export const clientMessageSchema = z
+  .discriminatedUnion('type', [
+    z
+      .object({
+        type: z.literal('session.start'),
+        sourceLang: languageCodeSchema,
+        targetLang: languageCodeSchema,
+        mode: interpretModeSchema.default('translate'),
+        meetingId: z.string().uuid().optional(),
+      })
+      .strict(),
+    z.object({ type: z.literal('translate.now') }).strict(),
+    z.object({ type: z.literal('mute.interpreter'), on: z.boolean() }).strict(),
+    z.object({ type: z.literal('recap.request') }).strict(),
+    z.object({ type: z.literal('session.end') }).strict(),
+  ])
+  .refine(
+    (m) => m.type !== 'session.start' || m.sourceLang !== m.targetLang,
+    'Languages must be different.',
+  );
 
 export type ClientMessage = z.infer<typeof clientMessageSchema>;
 export type InterpretMode = z.infer<typeof interpretModeSchema>;
